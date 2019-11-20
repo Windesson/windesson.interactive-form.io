@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -23,7 +23,7 @@
         <input type="text" id="name" name="user-name">
         
         <label for="mail">Email:</label>
-        <input type="email" id="mail" name="user-email">
+        <input type="email" id="email" name="user-email">
         
         <label for="title">Job Role</label>
         <select id="title" name="user-title">
@@ -107,7 +107,7 @@
 
         <label for="payment">I'm going to pay with:</label>
         <select id="payment" name="user-payment">
-          <option value="select method">Select Payment Method</option>
+          <option value="none">Select Payment Method</option>
           <option value="Credit Card">Credit Card</option>
           <option value="PayPal">PayPal</option>
           <option value="Bitcoin">Bitcoin</option>
@@ -168,7 +168,11 @@
       <button type="submit">Register</button>
       
     </form>
-
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="js/validator.js"></script>
+    <script src="js/script.js"></script>
 	</div>
 </body>
 </html>
