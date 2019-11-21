@@ -24,7 +24,9 @@ function registerError($input) {
 
 function createListener(validator) {
     return event => {
-        executeValidator(validator, $(event.target));
+        const $input = $(event.target);
+        if ($input.val().trim() === "") resetError($input);
+        else executeValidator(validator, $input);
     };
 }
 
