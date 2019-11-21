@@ -1,8 +1,10 @@
 const $userNameInput = $("input[id=name]");
 const $userEmailInput = $("input[id=email]");
 const $activitiesInput = $(".activities input");
-const $paymentInformation = $("select[id=payment]");
+const $paymentSelected = $("select[id=payment]");
 const $submitButton = $("button[type=submit]");
+const $jobTitleSelected = $("select[id=title]");
+const $otherTitle = $("input[id='other-title']");
 
 function main() {
     //Set focus on the first text field
@@ -33,11 +35,13 @@ function createListener(validator) {
 //Form validation
 $submitButton.on("click", (event) => {
 
+    //valid each field
     executeValidator(isValidUsername, $userNameInput);
     executeValidator(isValidEmail, $userEmailInput);
     executeValidator(isValidActivities, $activitiesInput);
-    executeValidator(isValidPayment, $paymentInformation);
+    executeValidator(isValidPayment, $paymentSelected);
 
+    //If any invalid field. do not submit.
     if (!isFormValid()) {
         event.preventDefault();
         $(window).scrollTop(0);
@@ -47,5 +51,8 @@ $submitButton.on("click", (event) => {
 $userNameInput.on("input blur", createListener(isValidUsername));
 $userEmailInput.on("input blur", createListener(isValidEmail));
 
-document.addEventListener('DOMContentLoaded', () => { main(); });
+$jobTitleSelected.on("input", () => {
+    $jobTitleSelected.val() === 'other' ? $otherTitle.show() : $otherTitle.hide();
+});
 
+document.addEventListener('DOMContentLoaded', () => { main(); });
