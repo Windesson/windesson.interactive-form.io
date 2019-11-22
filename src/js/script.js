@@ -11,6 +11,8 @@ const $tshirtOriginalColorOption = $tshirtCurrentColorOption.children();
 const $tshirtDefaultColorOption = $('<option>Please select a T-shirt theme</option>');
 const $creditCardInformationDiv = $("div[id='credit-card']");
 const $paymentMethodSelected = $("select[id=payment]");
+const $paypalInformation = $("div[id=paypal]");
+const $bitcoinInformation = $("div[id=bitcoin]"); 
 
 function main() {
     //Set focus on the first text field
@@ -20,7 +22,12 @@ function main() {
     $tshirtCurrentColorOption.html($tshirtDefaultColorOption);
 
     //hide creditcard payment information
-    $creditCardInformationDiv.hide();
+    $paymentMethodSelected.val("Credit Card").change();
+
+    //hide paypal/bitcoin information
+    $paypalInformation.hide();
+    $bitcoinInformation.hide();
+
 }
 
 //validate form on submition
@@ -80,5 +87,28 @@ document.addEventListener('DOMContentLoaded', () => { main(); });
 
 //Payment Information - hide/display credit card field and validate
 $paymentMethodSelected.on("input", () => {
-    $paymentMethodSelected.val() === 'Credit Card' ? $creditCardInformationDiv.show() : $creditCardInformationDiv.hide();
+    const payment = $paymentMethodSelected.val();
+
+    switch (payment) {
+        case 'Credit Card':
+            $creditCardInformationDiv.show();
+            $paypalInformation.hide();
+            $bitcoinInformation.hide();
+            break;
+        case 'PayPal':
+            $paypalInformation.show();
+            $bitcoinInformation.hide();
+            $creditCardInformationDiv.hide();
+            break;
+        case 'Bitcoin':
+            $bitcoinInformation.show();
+            $paypalInformation.hide();
+            $creditCardInformationDiv.hide();
+            break;
+        default:
+            $bitcoinInformation.hide();
+            $paypalInformation.hide();
+            $creditCardInformationDiv.hide();
+    }
+
 });
