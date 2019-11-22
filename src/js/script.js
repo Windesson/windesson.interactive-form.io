@@ -13,7 +13,7 @@ const $creditCardInformationDiv = $("div[id='credit-card']");
 const $paymentMethodSelected = $("select[id=payment]");
 
 function main() {
-    ////Set focus on the first text field
+    //Set focus on the first text field
     $("input[type=text]").first().focus();    
 
     //reset t-shirt color to default 'Please select a T-shirt theme'
@@ -22,7 +22,6 @@ function main() {
     //hide creditcard payment information
     $creditCardInformationDiv.hide();
 }
-
 
 //validate form on submition
 $submitButton.on("click", (event) => {
