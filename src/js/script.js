@@ -110,5 +110,30 @@ $paymentMethodSelected.on("input", () => {
             $paypalInformation.hide();
             $creditCardInformationDiv.hide();
     }
+});
 
+$activitiesInput.on("input", (event) => {
+    const $selectedActivity = $(event.target);
+
+    $activitiesInput.each(function () {
+       
+        //do not validate check box already checked
+        if($(this).is(":Checked")) return; 
+
+        //do not compare to itself
+        if ($(this).attr("name") === $selectedActivity.attr("name")) return;
+
+        let currentDate = $(this).attr("data-day-and-time");
+        let selectedDate = $selectedActivity.attr("data-day-and-time");
+
+        //not the same day
+        if (currentDate !== selectedDate) return;
+
+        //acitivity hours conflict exists 
+        let action = $selectedActivity.is(":Checked");
+
+        // unchecks an activity, make sure that competing activities (if there are any) are no longer disabled.
+        // don't allow selection of a workshop at the same day and time
+        $(this).prop("disabled", action); 
+    });
 });
