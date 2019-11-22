@@ -21,3 +21,24 @@ isValidPayment = ($paymentSelected) => {
 isFormValid = () => {
     return $(".error").length === 0;
 };
+
+executeValidator = (validator, $input) => {
+    validator($input) ? resetError($input) : registerError($input);
+};
+
+resetError = ($input) => {
+    $input.removeClass("error");
+};
+
+registerError = ($input) => {
+    $input.addClass("error");
+};
+
+//create event listener to be call validator dynamically
+ createListener = (validator)  => {
+    return event => {
+        const $input = $(event.target);
+        if ($input.val().trim() === "") resetError($input);
+        else executeValidator(validator, $input);
+    };
+}
