@@ -22,6 +22,7 @@ function main() {
     $tshirtCurrentColorOption.html($tshirtDefaultColorOption);
 
     //hide creditcard payment information
+    $("select option[value='none']").hide();
     $paymentMethodSelected.val("Credit Card").change();
 
     //hide paypal/bitcoin information
@@ -41,6 +42,12 @@ $submitButton.on("click", (event) => {
     executeValidator(isValidEmail, $userEmailInput);
     executeValidator(isValidActivities, $activitiesInput);
     executeValidator(isValidPayment, $paymentSelected);
+
+    //if payment is 'Credit Card'
+    //must supplied a valid Credit Card number, a Zip Code, and a 3 number CVV value
+    executeValidator(isValidCreditCardnumber, $('input[id="cc-num"]'));
+    executeValidator(isValidZipCode, $('input[id="zip"]'));
+    executeValidator(isValidCVV, $('input[id="cvv"]'));
 
     //If any invalid field found. set focus on first occurance.
     if (!isFormValid()) {

@@ -22,6 +22,18 @@ isFormValid = () => {
     return $(".error").length === 0;
 };
 
+isValidCreditCardnumber = ($input) => {
+    return /^\d{13,16}$/.test($input.val());
+};
+
+isValidZipCode = ($input) => {
+    return /^\d{5}$/.test($input.val());
+};
+
+isValidCVV = ($input) => {
+    return /^\d{3}$/.test($input.val());
+};
+
 executeValidator = (validator, $input) => {
     validator($input) ? resetError($input) : registerError($input);
 };
