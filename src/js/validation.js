@@ -13,11 +13,6 @@ isValidActivities = ($activitiesInputList) => {
     return $activitiesInputList.is(":checked");
 };
 
-//valid payment info is selected 
-isValidPayment = ($paymentSelected) => {
-    return $paymentSelected.val() !== "none";
-};
-
 isFormValid = () => {
     return $(".error").length === 0;
 };
@@ -47,10 +42,16 @@ registerError = ($input) => {
 };
 
 //create event listener to be call validator dynamically
- createListener = (validator)  => {
+createListener = (validator) => {
     return event => {
         const $input = $(event.target);
         if ($input.val().trim() === "") resetError($input);
         else executeValidator(validator, $input);
     };
-}
+};
+
+createCheckboxListener = ($activitiesInputList) => {
+    return () => {
+        executeValidator(isValidActivities, $activitiesInputList);
+    };
+};

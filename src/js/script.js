@@ -13,6 +13,9 @@ const $creditCardInformationDiv = $("div[id='credit-card']");
 const $paymentMethodSelected = $("select[id=payment]");
 const $paypalInformation = $("div[id=paypal]");
 const $bitcoinInformation = $("div[id=bitcoin]"); 
+const $creditCardNumber = $('input[id="cc-num"]');
+const $creditCardZip = $('input[id="zip"]');
+const $creditCardCVV = $('input[id="cvv"]');
 
 function main() {
     //Set focus on the first text field
@@ -21,8 +24,10 @@ function main() {
     //reset t-shirt color to default 'Please select a T-shirt theme'
     $tshirtCurrentColorOption.html($tshirtDefaultColorOption);
 
-    //hide creditcard payment information
+    //hide 'select payment' payment option.
     $("select option[value='none']").hide();
+
+    //Select credit credit card as default payment option
     $paymentMethodSelected.val("Credit Card").change();
 
     //hide paypal/bitcoin information
@@ -41,13 +46,14 @@ $submitButton.on("click", (event) => {
     executeValidator(isValidUsername, $userNameInput);
     executeValidator(isValidEmail, $userEmailInput);
     executeValidator(isValidActivities, $activitiesInput);
-    executeValidator(isValidPayment, $paymentSelected);
 
     //if payment is 'Credit Card'
     //must supplied a valid Credit Card number, a Zip Code, and a 3 number CVV value
-    executeValidator(isValidCreditCardnumber, $('input[id="cc-num"]'));
-    executeValidator(isValidZipCode, $('input[id="zip"]'));
-    executeValidator(isValidCVV, $('input[id="cvv"]'));
+    if ($paymentSelected.val().toLowerCase() === "credit card") {
+        executeValidator(isValidCreditCardnumber, $creditCardNumber);
+        executeValidator(isValidZipCode, $creditCardZip);
+        executeValidator(isValidCVV, $creditCardCVV);
+    }
 
     //If any invalid field found. set focus on first occurance.
     if (!isFormValid()) {
@@ -56,16 +62,6 @@ $submitButton.on("click", (event) => {
     }
 });
 
-//user name listener
-$userNameInput.on("input blur", createListener(isValidUsername));
-
-//email listner
-$userEmailInput.on("input blur", createListener(isValidEmail));
-
-//Job Role section - display optional field for 'other' job title
-$jobTitleSelected.on("input", () => {
-    $jobTitleSelected.val() === 'other' ? $otherTitle.show() : $otherTitle.hide();
-});
 
 //”T-Shirt Info” section - display mathing t-shirt color on design.
 $tShirtUserDesign.on("input", () => {
@@ -88,40 +84,7 @@ $tShirtUserDesign.on("input", () => {
 
 });
 
-//call main once content is loaded.
-document.addEventListener('DOMContentLoaded', () => { main(); });
-
-
-//Register for ativities - resolve conflicts
-
-
-//Payment Information - hide/display credit card field and validate
-$paymentMethodSelected.on("input", () => {
-    const payment = $paymentMethodSelected.val();
-
-    switch (payment) {
-        case 'Credit Card':
-            $creditCardInformationDiv.show();
-            $paypalInformation.hide();
-            $bitcoinInformation.hide();
-            break;
-        case 'PayPal':
-            $paypalInformation.show();
-            $bitcoinInformation.hide();
-            $creditCardInformationDiv.hide();
-            break;
-        case 'Bitcoin':
-            $bitcoinInformation.show();
-            $paypalInformation.hide();
-            $creditCardInformationDiv.hide();
-            break;
-        default:
-            $bitcoinInformation.hide();
-            $paypalInformation.hide();
-            $creditCardInformationDiv.hide();
-    }
-});
-
+//Register for Activities validation section
 $activitiesInput.on("input", (event) => {
     const $selectedActivity = $(event.target);
     const isTargetActivityChecked = $selectedActivity.is(":Checked");
@@ -155,3 +118,52 @@ $activitiesInput.on("input", (event) => {
     //update total
     $("#js-data-total-cost").html(totalCost);
 });
+
+//Payment Information - hide/display credit card field and validate
+$paymentMethodSelected.on("input", () => {
+    const payment = $paymentMethodSelected.val();
+
+    switch (payment) {
+        case 'Credit Card':
+            $creditCardInformationDiv.show();
+            $paypalInformation.hide();
+            $bitcoinInformation.hide();
+            break;
+        case 'PayPal':
+            $paypalInformation.show();
+            $bitcoinInformation.hide();
+            $creditCardInformationDiv.hide();
+            break;
+        case 'Bitcoin':
+            $bitcoinInformation.show();
+            $paypalInformation.hide();
+            $creditCardInformationDiv.hide();
+            break;
+        default:
+            $bitcoinInformation.hide();
+            $paypalInformation.hide();
+            $creditCardInformationDiv.hide();
+    }
+});
+
+//user name listener
+$userNameInput.on("input blur", createListener(isValidUsername));
+
+//email listener
+$userEmailInput.on("input blur", createListener(isValidEmail));
+
+//Register for Activities listener
+$activitiesInput.on("input blur", createCheckboxListener($activitiesInput));
+
+//Job Role section - display optional field for 'other' job title
+$jobTitleSelected.on("input", () => {
+    $jobTitleSelected.val() === 'other' ? $otherTitle.show() : $otherTitle.hide();
+});
+
+//Credit card payment fields
+$creditCardNumber.on("input blur", createListener(isValidCreditCardnumber));
+$creditCardZip.on("input blur", createListener(isValidZipCode));
+$creditCardCVV.on("input blur", createListener(isValidCVV));
+
+//call main once content is loaded.
+document.addEventListener('DOMContentLoaded', () => { main(); });
