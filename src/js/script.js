@@ -28,6 +28,9 @@ function main() {
     $paypalInformation.hide();
     $bitcoinInformation.hide();
 
+    //Add total cost field
+    $(".activities").append(`<label>Total Cost: <span id="js-data-total-cost">0<span><label>`);
+
 }
 
 //validate form on submition
@@ -114,11 +117,19 @@ $paymentMethodSelected.on("input", () => {
 
 $activitiesInput.on("input", (event) => {
     const $selectedActivity = $(event.target);
+    const isTargetActivityChecked = $selectedActivity.is(":Checked");
+
+    //update total data cost
+    let totalCost = 0;
 
     $activitiesInput.each(function () {
-       
+
+        let currentCost = parseInt($(this).attr("data-cost").replace(/\D*/g,""), 10);
         //do not validate check box already checked
-        if($(this).is(":Checked")) return; 
+        if ($(this).is(":Checked")) {
+            totalCost += currentCost;
+            return;
+        } 
 
         //do not compare to itself
         if ($(this).attr("name") === $selectedActivity.attr("name")) return;
@@ -129,11 +140,11 @@ $activitiesInput.on("input", (event) => {
         //not the same day
         if (currentDate !== selectedDate) return;
 
-        //acitivity hours conflict exists 
-        let action = $selectedActivity.is(":Checked");
+        // resolve conflicting activities
+        $(this).prop("disabled", isTargetActivityChecked); 
 
-        // unchecks an activity, make sure that competing activities (if there are any) are no longer disabled.
-        // don't allow selection of a workshop at the same day and time
-        $(this).prop("disabled", action); 
     });
+
+    //update total
+    $("#js-data-total-cost").html(totalCost);
 });
