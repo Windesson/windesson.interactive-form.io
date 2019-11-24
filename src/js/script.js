@@ -43,16 +43,16 @@ function main() {
 $submitButton.on("click", (event) => {
 
     //valid individual fields
-    executeValidator(isValidUsername, $userNameInput);
-    executeValidator(isValidEmail, $userEmailInput);
-    executeValidator(isValidActivities, $activitiesInput);
+    inputExecuteValidator(isValidUsername, $userNameInput);
+    inputExecuteValidator(isValidEmail, $userEmailInput);
+    checkBoxExecuteValidator(isValidActivities, $(".activities"));
 
     //if payment is 'Credit Card'
     //must supplied a valid Credit Card number, a Zip Code, and a 3 number CVV value
     if ($paymentSelected.val().toLowerCase() === "credit card") {
-        executeValidator(isValidCreditCardnumber, $creditCardNumber);
-        executeValidator(isValidZipCode, $creditCardZip);
-        executeValidator(isValidCVV, $creditCardCVV);
+        inputExecuteValidator(isValidCreditCardnumber, $creditCardNumber);
+        inputExecuteValidator(isValidZipCode, $creditCardZip);
+        inputExecuteValidator(isValidCVV, $creditCardCVV);
     }
 
     //If any invalid field found. set focus on first occurance.
@@ -147,23 +147,34 @@ $paymentMethodSelected.on("input", () => {
 });
 
 //user name listener
-$userNameInput.on("input blur", createListener(isValidUsername));
+$userNameInput.on("input blur", inputCreateListener(isValidUsername));
 
 //email listener
-$userEmailInput.on("input blur", createListener(isValidEmail));
-
-//Register for Activities listener
-$activitiesInput.on("input blur", createCheckboxListener($activitiesInput));
+$userEmailInput.on("input blur", inputCreateListener(isValidEmail));
 
 //Job Role section - display optional field for 'other' job title
 $jobTitleSelected.on("input", () => {
     $jobTitleSelected.val() === 'other' ? $otherTitle.show() : $otherTitle.hide();
 });
 
+//Reset credit card payment information 
+$paymentMethodSelected.on("change", () => {
+    if ($paymentSelected.val().toLowerCase() === "credit card") return;
+   
+    $creditCardNumber.val("");
+    $creditCardZip.val("");
+    $creditCardCVV.val("");
+
+    for (let $input of [$creditCardNumber, $creditCardZip, $creditCardCVV]) {
+        showOrHideTip(false,$input);
+    }
+   
+});
+
 //Credit card payment fields
-$creditCardNumber.on("input blur", createListener(isValidCreditCardnumber));
-$creditCardZip.on("input blur", createListener(isValidZipCode));
-$creditCardCVV.on("input blur", createListener(isValidCVV));
+$creditCardNumber.on("input blur", inputCreateListener(isValidCreditCardnumber));
+$creditCardZip.on("input blur", inputCreateListener(isValidZipCode));
+$creditCardCVV.on("input blur", inputCreateListener(isValidCVV));
 
 //call main once content is loaded.
 document.addEventListener('DOMContentLoaded', () => { main(); });

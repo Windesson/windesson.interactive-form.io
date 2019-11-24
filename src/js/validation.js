@@ -29,29 +29,40 @@ isValidCVV = ($input) => {
     return /^\d{3}$/.test($input.val());
 };
 
-executeValidator = (validator, $input) => {
-    validator($input) ? resetError($input) : registerError($input);
+inputExecuteValidator = (validator, $input) => {
+    const show = !validator($input);
+    showOrHideTip(show, $input);
 };
 
-resetError = ($input) => {
-    $input.removeClass("error");
+checkBoxExecuteValidator = (validator, $activities) => {
+
+    const $options = $($activities[0].querySelectorAll('input'));
+    const show = !validator($options);
+    const $legend = $($activities[0].querySelector('legend'));
+    showOrHideTip(show, $legend);
 };
 
-registerError = ($input) => {
-    $input.addClass("error");
+
+//soure https://teamtreehouse.com/library/validating-a-username
+showOrHideTip = (show, $element) => {
+    // show element when show is true, hide when false
+    const $tip = $element.next(".js-tip");
+    const isTypeInput = $element.is('INPUT');
+    if (show) {
+        isTypeInput ? $element.addClass("error") : $element.css('color', 'red');
+        if ($tip) $tip.show();
+    } else {
+        isTypeInput ? $element.removeClass("error") : $element.css('color', 'black');
+        if ($tip) $tip.hide();
+    }
 };
 
 //create event listener to be call validator dynamically
-createListener = (validator) => {
+inputCreateListener = (validator) => {
     return event => {
         const $input = $(event.target);
-        if ($input.val().trim() === "") resetError($input);
-        else executeValidator(validator, $input);
-    };
-};
 
-createCheckboxListener = ($activitiesInputList) => {
-    return () => {
-        executeValidator(isValidActivities, $activitiesInputList);
+        if ($input.val() === "") { showOrHideTip(false, $input); return; }
+        inputExecuteValidator(validator, $input);
     };
 };
