@@ -22,13 +22,13 @@
         <p>
           <label for="name">Name:</label>
           <input type="text" id="name" name="user-name">
-          <span hidden class="js-tip">User name can't be blank</span>
+          <span hidden class="js-tooltip-error">User name can't be blank</span>
         </p>
         
         <p>
           <label for="mail">Email:</label>
           <input type="email" id="email" name="user-email">
-          <span hidden class="js-tip">Must be a validly formatted e-mail address</span>
+          <span hidden class="js-tooltip-error">Must be a validly formatted e-mail address</span>
         </p>
         
         <label for="title">Job Role</label>
@@ -82,7 +82,7 @@
 
       <fieldset class="activities">
         <legend>Register for Activities</legend>
-        <span hidden class="js-tip">Please select at least one checkbox.</span>
+        <span hidden class="js-tooltip-error">Please select at least one checkbox.</span>
         <label>
           <input type="checkbox" name="all" data-cost="$200"> Main Conference — $200
         </label>
@@ -128,19 +128,19 @@
           <div class="col-6 col">
             <label for="cc-num">Card Number:</label>
         	<input id="cc-num" name="user-cc-num" type="text">
-            <span hidden class="js-tip">Must be between 13 and 16 digits.</span>
+            <span hidden class="js-tooltip-error">Must be between 13 and 16 digits.</span>
           </div>
 
           <div class="col-3 col">
             <label for="zip">Zip Code:</label>
             <input id="zip" name="user-zip" type="text"> 
-            <span hidden class="js-tip">Must be exactly 5 digits long.</span>
+            <span hidden class="js-tooltip-error">Must be exactly 5 digits long.</span>
           </div>
 
           <div class="col-3 col">
             <label for="cvv">CVV:</label>
             <input id="cvv" name="user-cvv" type="text"> 
-            <span hidden class="js-tip">Must be exactly 3 digits long.</span>
+            <span hidden class="js-tooltip-error">Must be exactly 3 digits long.</span>
           </div>
 
           <label for="exp-month">Expiration Date:</label>

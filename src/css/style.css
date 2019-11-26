@@ -199,11 +199,12 @@ option {
 }
 
 
-.error {
+.js-input-error {
     border: 2px solid red;
     outline: 1px solid red;
 }
 
-.js-tip {
+.js-tooltip-error,
+.js-legend-error {
     color: red;
 }

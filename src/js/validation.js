@@ -14,7 +14,8 @@ isValidActivities = ($activitiesInputList) => {
 };
 
 isFormValid = () => {
-    return $(".error").length === 0;
+    return $(".js-input-error").length === 0 &&
+           $(".js-legend-error").length === 0;
 };
 
 isValidCreditCardnumber = ($input) => {
@@ -46,13 +47,13 @@ checkBoxExecuteValidator = (validator, $activities) => {
 //soure https://teamtreehouse.com/library/validating-a-username
 showOrHideTip = (show, $element) => {
     // show element when show is true, hide when false
-    const $tip = $element.next(".js-tip");
+    const $tip = $element.next(".js-tooltip-error");
     const isTypeInput = $element.is('INPUT');
     if (show) {
-        isTypeInput ? $element.addClass("error") : $element.css('color', 'red');
+        isTypeInput ? $element.addClass("js-input-error") : $element.addClass("js-legend-error");
         if ($tip) $tip.show();
     } else {
-        isTypeInput ? $element.removeClass("error") : $element.css('color', 'black');
+        isTypeInput ? $element.removeClass("js-input-error") : $element.removeClass("js-legend-error");
         if ($tip) $tip.hide();
     }
 };
