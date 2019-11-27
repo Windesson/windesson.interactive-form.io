@@ -24,6 +24,9 @@ function main() {
     //reset t-shirt color to default 'Please select a T-shirt theme'
     $tshirtCurrentColorOption.html($tshirtDefaultColorOption);
 
+    //hide job others field
+    $otherTitle.hide();
+
     //hide 'select payment' payment option.
     $("select option[value='none']").hide();
 
